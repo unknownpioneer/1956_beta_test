@@ -722,6 +722,9 @@ focus_tree = {
 					remove_from_faction = ROOT
 				}
 			}
+			add_war_support = 0.1
+			add_stability= -0.01
+			
 					
 		}
 		search_filters = { FOCUS_FILTER_ANNEXATION FOCUS_FILTER_TFV_AUTONOMY }
@@ -1415,6 +1418,91 @@ focus_tree = {
 			}
 		}
 		search_filters = { FOCUS_FILTER_RESEARCH }
+	}
+
+    focus = {
+		id = CHI_i_run 
+		icon = GFX_goal_generic_political
+		prerequisite = { focus = CHI_heavy_weapons_development }
+		x = 1
+		y = 3
+		relative_position_id = CHI_local_arms_development
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+		completion_reward = {
+			become_exiled_in = { target = ENG legitimacy = 2}
+			CHI = {
+				annex_country = {
+					target = ROOT
+					transfer_troops = yes
+				}
+			}
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+
+	focus = {
+		id = CHI_We_Dont_Give_Up
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = CHI_heavy_weapons_development }
+		mutually_exclusive = { focus = CHI_i_run }
+		x = -2
+		y = 3
+		relative_position_id = CHI_local_arms_development
+		cost = 1
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			NOT = {
+				CHI = {
+					is_subject_of = ROOT
+				}
+				PRC = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					CHI = {
+						is_subject = no
+					}
+					PRC = {
+						is_subject = no
+					}
+				}
+				declare_war_on = {
+					target = PRC
+					type = puppet_wargoal_focus
+				}
+				declare_war_on = {
+					target = CHI
+					type = puppet_wargoal_focus
+				}
+				add_war_support = 0.1
+				add_political_power = 300
+				JAP = {
+					create_country_leader = {
+						name = "测试"
+						desc = "POLITICS_MOHAMMED_ZAHIR_SHAH_DESC"
+						expire = "1956.1.1"
+						ideology = fascism
+						traits = {
+							the_director}
+					}
+					set_politics = {
+						ruling_party = fascism
+						elections_allowed = no
+					}
+				}
+			}
+			search_filters = { FOCUS_FILTER_ANNEXATION }
+		}
+
 	}
 
 }
